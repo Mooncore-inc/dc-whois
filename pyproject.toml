@@ -1,5 +1,5 @@
 [project]
-name = "demon-cry-whois"
+name = "dc-whois"
 version = "0.1.0"
 description = "Whois lookup module for demon-cry"
 authors = [
