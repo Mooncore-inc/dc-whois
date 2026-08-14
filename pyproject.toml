@@ -14,7 +14,7 @@ dependencies = [
 ]
 
 [project.entry-points."demon_cry.modules"]
-whois_lookup = "demon_cry_whois:WhoisLookup"
+whois_lookup = "dc_whois:WhoisLookup"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
