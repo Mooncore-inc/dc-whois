@@ -1,6 +1,6 @@
 import asyncwhois
 
-from demon_cry_base import BaseModule
+from demon_cry_base import BaseModule, ModuleConfig
 
 CLEAN_FIELDS = {
     "domain_name": "Domain",
@@ -36,7 +36,7 @@ class WhoisLookup(BaseModule):
         "required": ["domain"]
     }
 
-    async def execute(self, config: dict, domain: str) -> dict:
+    async def execute(self, config: ModuleConfig, domain: str) -> dict:
         data = await self._fetch(domain)
         if data is None:
             return {"error": f"Failed to fetch data for {domain}"}
