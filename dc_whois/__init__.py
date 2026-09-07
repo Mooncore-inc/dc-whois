@@ -1,6 +1,7 @@
 import asyncwhois
 
-from demon_cry_base import BaseModule, ModuleConfig
+from pydantic import Field
+from demon_cry_base import BaseModule, ModuleConfig, ModuleParameters
 
 CLEAN_FIELDS = {
     "domain_name": "Domain",
@@ -23,23 +24,19 @@ CLEAN_FIELDS = {
     "tech_phone": "Tech Phone",
 }
 
+class WhoisParams(ModuleParameters):
+    domain: str = Field(description="Domain to lookup")
 
 class WhoisLookup(BaseModule):
     name = "whois"
     description = "RDAP/WHOIS lookup for domain registration data"
     category = "network"
-    parameters = {
-        "type": "object",
-        "properties": {
-            "domain": {"type": "string", "description": "Domain to lookup"}
-        },
-        "required": ["domain"]
-    }
+    parameters_model = WhoisParams
 
-    async def execute(self, config: ModuleConfig, domain: str) -> dict:
-        data = await self._fetch(domain)
+    async def execute(self, config: ModuleConfig, params: WhoisParams) -> dict:
+        data = await self._fetch(params.domain)
         if data is None:
-            return {"error": f"Failed to fetch data for {domain}"}
+            return {"error": f"Failed to fetch data for {params.domain}"}
 
         lines = []
         for key, label in CLEAN_FIELDS.items():
@@ -51,7 +48,7 @@ class WhoisLookup(BaseModule):
             lines.append(f"| {label} | {value} |")
 
         if not lines:
-            return {"error": f"No data returned for {domain}"}
+            return {"error": f"No data returned for {params.domain}"}
 
         table = "| Field | Value |\n|---|---|\n" + "\n".join(lines)
         return {"result": table}
