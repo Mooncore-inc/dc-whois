@@ -1,7 +1,7 @@
 [project]
 name = "dc-whois"
 version = "0.1.0"
-description = "Whois lookup module for demon-cry"
+description = "Whois lookup plugin for demon-cry"
 authors = [
     {name = "mooncore-inc"}
 ]
@@ -9,11 +9,11 @@ license = "Apache2"
 readme = "README.md"
 requires-python = ">=3.12, <3.15"
 dependencies = [
-    "demon-cry-base (>=0.3.0,<0.4.0)",
+    "demon-cry-base==0.4.0",
     "asyncwhois (>=1.1.12,<2.0.0)"
 ]
 
-[project.entry-points."demon_cry.modules"]
+[project.entry-points."demon_cry.plugins"]
 whois_lookup = "dc_whois:WhoisLookup"
 
 [build-system]

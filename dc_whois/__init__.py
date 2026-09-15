@@ -1,7 +1,7 @@
 import asyncwhois
 
+from demon_cry_base import BasePlugin, PluginConfig, PluginParameters
 from pydantic import Field
-from demon_cry_base import BaseModule, ModuleConfig, ModuleParameters
 
 CLEAN_FIELDS = {
     "domain_name": "Domain",
@@ -24,16 +24,19 @@ CLEAN_FIELDS = {
     "tech_phone": "Tech Phone",
 }
 
-class WhoisParams(ModuleParameters):
+class WhoisParams(PluginParameters):
     domain: str = Field(description="Domain to lookup")
 
-class WhoisLookup(BaseModule):
+
+class WhoisLookup(BasePlugin):
     name = "whois"
     description = "RDAP/WHOIS lookup for domain registration data"
     category = "network"
     parameters_model = WhoisParams
 
-    async def execute(self, config: ModuleConfig, params: WhoisParams) -> dict:
+    async def execute(self, config: PluginConfig, params: PluginParameters) -> dict:
+        if not isinstance(params, WhoisParams):
+            params = WhoisParams.model_validate(params.model_dump())
         data = await self._fetch(params.domain)
         if data is None:
             return {"error": f"Failed to fetch data for {params.domain}"}
