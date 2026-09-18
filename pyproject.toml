@@ -9,12 +9,12 @@ license = "Apache2"
 readme = "README.md"
 requires-python = ">=3.12, <3.15"
 dependencies = [
-    "demon-cry-base==0.4.0",
+    "demon-cry-base==0.6.0",
     "asyncwhois (>=1.1.12,<2.0.0)"
 ]
 
 [project.entry-points."demon_cry.plugins"]
-whois_lookup = "dc_whois:WhoisLookup"
+whois = "dc_whois:WhoisLookup"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
